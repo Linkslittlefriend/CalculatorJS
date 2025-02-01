@@ -1,0 +1,8 @@
+first check whether a regular digit was pressed or operators
+
+if digit, take digit and add to hud and store at the same time.
+if this digit was clicked after an equals operator, erase the hud,
+but keep the digits in a variable.
+
+if operator, save first digit, start writing to new variable,
+update HUD with a space then the operator and another space
