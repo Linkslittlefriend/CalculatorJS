@@ -11,8 +11,16 @@
 </head>
 <body>
     <div class = "calculator">
-        <div id = "hud">
-            123
+        <div class = "screen">
+            <div class = "output" id = "hud">
+                Type...
+            </div>
+            <div class = "output" id = "operhud">
+                
+            </div>
+            <div class="output" id  = "minihud">
+                
+            </div>
         </div>
         <div class = "btns">
             <button id ="dig1" value="1">1</button>
@@ -29,16 +37,24 @@
             <button id ="dig8" value="8">8</button>
             <button id ="dig9" value="9">9</button>
         </div>
+        <div class = "lastrow">
+            <div class = "btns">
+                <button id ="dig9" value="0">0</button>
+            </div>
+            <div class="oper">
+                <button id = "clear">clear</button>
+            </div>
+        </div>
         <div class = "oper">
-            <button id ="operp" value="+">+</button>
-            <button id ="operM" value="-">-</button>
-            <button id ="operT" value="*">*</button>
-            <button id ="operD" value="/">/</button>
+            <div class = "normal">
+                <button id ="operp" value="+">+</button>
+                <button id ="operM" value="-">-</button>
+                <button id ="operT" value="*">*</button>
+                <button id ="operD" value="/">/</button>
+            </div>
             <button id ="operE" value="=">=</button>
         </div>
-        <div class="oper">
-            <button>clear</button>
-        </div>
+        
     </div>
 </body>
 </html>

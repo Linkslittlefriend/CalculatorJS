@@ -6,3 +6,92 @@ but keep the digits in a variable.
 
 if operator, save first digit, start writing to new variable,
 update HUD with a space then the operator and another space
+
+if equals, falsify operator flag, display result in HUD, save
+result in a new variable
+
+if clear, clears first, second and operator
+
+nothing -> digit
+-update first
+-update hud
+
+nothing -> operator
+- update operator
+- update HUD with operator sign
+- update operatorHUD
+
+nothing -> equals
+- update first and second to 0
+- store result 
+- clear everything
+- store result in first
+- display first in HUD
+- update operator
+- update operatorHUD
+
+digit -> digit
+- update first
+- flag store
+- update HUD
+
+digit -> operator
+- update operator
+- update HUD with operator sign
+- update operatorHUD
+
+digit -> equals
+- update second to 0
+- store result
+- clear everything
+- store result in first
+- display first in HUD
+- update operator
+- update operatorHUD
+
+operator -> digit
+- clear HUD
+- update first
+- flag store
+- update miniHUD
+- clear first
+- update HUD
+
+operator -> operator
+- update operator
+- update HUD with operator sign
+- update operatorHUD
+
+operator -> equals
+- if no second, update second to 0
+- store result
+- clear everything
+- store result in first
+- display first in HUD
+- update operator
+- update operatorHUD
+
+equals -> digit
+- clear hud
+- store result in second (its going to obsolete anyway)
+- result to null
+- update first
+- flag store
+- update HUD
+
+equals -> operator
+- update operator
+- update HUD with operator sign
+- update operatorHUD
+
+equals -> equals
+- update second to 0
+- store result 
+- clear everything
+- store result in first
+- display first in HUD
+- update operator
+- update operatorHUD
+
+
+before you continue, consider how to do the first and second switching rule - flag it after clicking operator or equals - clicking backspace unflags it

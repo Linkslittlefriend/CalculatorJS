@@ -1,6 +1,47 @@
-function Operate(a,b,op){
-    //convert arrays to strings here, then 
-    equations
+function Operate(){
+    //convert arrays to strings here, then
+    if(!first)
+        first = [0];
+    
+    if(!second)
+        second = [0];
+    
+    const x = first.join("");   
+    const y = second.join("");
+
+    switch(operator){
+        case "+":
+            result = equations.Add(+x,+y);
+            break;
+        case "-":
+            result = equations.Subtract(+x,+y);
+            break; 
+        case "*":
+            result = equations.Multiply(+x,+y);
+            break;
+        case "/":
+            result = equations.Divide(+x,+y);
+            break;
+        default:
+            result = first.join("");
+    }
+
+    ClearAll();
+    first = String(result).split("");
+    HUD.textContent = result;
+    OpHUD.textContent = "=";
+
+    result = "";
+    operatorSelect = false;
+    switchNow = false;
+}
+
+function ClearAll(){
+    first = [];
+    second = [];
+    ClearHUD();
+    ClearOpHUD();
+    ClearMiniHUD();
 }
 
 function ClearHUD(){
@@ -8,16 +49,53 @@ function ClearHUD(){
     HUD.textContent = "";
 }
 
-function updateValue(digit = "", del = 1){
-    if(hudClear)
+function ClearOpHUD(){
+    OpHUD.textContent = ""; 
+}
+
+function ClearMiniHUD(){
+    minHUD.textContent = "";
+}
+
+function updateHUD(number){
+    HUD.textContent += number;
+}
+
+function updateminiHUD(number){
+    minHUD.textContent = number;
+}
+
+function addDigit(digit = "", del = 1){
+    if(hudClear){
         ClearHUD();
+    }
+    if(switchNow){
+        console.log("trigger");
+        switchNow = false;
+        switchValue();
+    }
     first.splice(first.length, del, digit);
-    HUD.textContent += digit;
+    updateHUD(digit);
+    console.log("First: " + first + " Second: " + second);
+}
+
+function switchValue(){
+    console.log("before func: First: " + first + " Second: " + second);
+    second = first.map((x) => x);
+    updateminiHUD(second.join(""));
+    console.log("after func: First: " + first + " Second: " + second);
+    first = [];
 }
 
 function updateOper(oper){
+    console.log("First: " + first + " Second: " + second);
+    hudClear = true;
+    operatorSelect = true;
     operator = oper;
-    HUD.textContent += " " + oper + " ";
+    console.log(first);
+    HUD.textContent = first.join("") + " " + oper + " ";
+    OpHUD.textContent = operator;
+    switchNow = true;
 }
 
 const equations = {
@@ -29,17 +107,29 @@ const equations = {
 
 let first = [];
 let second = [];
+let result = "";
 let operator;
 let hudClear = true;
+let operatorSelect = false;
+let switchNow = false;
 
-let digits = document.querySelectorAll(".btns button");
-let operators = document.querySelectorAll(".oper button");
-let HUD = document.querySelector("#hud");
+const digits = document.querySelectorAll(".btns button");
+const operators = document.querySelectorAll(".normal button");
+const clear = document.querySelector("#clear");
+const equals = document.querySelector('#operE');
+
+const HUD = document.querySelector("#hud");
+const OpHUD = document.querySelector("#operhud");
+const minHUD = document.querySelector("#minihud");
 
 digits.forEach((digit) => {
-    digit.addEventListener("click", ()=>  updateValue(digit.value, 0));
+    digit.addEventListener("click", ()=>  addDigit(digit.value, 0));
 });
 
 operators.forEach((oper) => {
     oper.addEventListener("click", ()=>  updateOper(oper.value));
 });
+
+clear.addEventListener("click", ()=> ClearAll());
+
+equals.addEventListener("click", ()=> Operate(first,second,operator));
