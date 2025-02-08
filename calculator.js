@@ -6,8 +6,8 @@ function Operate(){
     if(!second)
         second = [0];
     
-    const x = first.join("");   
-    const y = second.join("");
+    const x = second.join("");
+    const y = first.join("");   
 
     switch(operator){
         case "+":
@@ -27,13 +27,21 @@ function Operate(){
     }
 
     ClearAll();
+    operatorSelect = false;
+    switchNow = false;
+
+    if(y == 0){
+        result = "";
+        HUD.textContent = "ERROR 404";
+        hudClear = true;
+        return;
+    }
+
     first = String(result).split("");
-    HUD.textContent = result;
+    updateHUD();
     OpHUD.textContent = "=";
 
     result = "";
-    operatorSelect = false;
-    switchNow = false;
 }
 
 function ClearAll(){
@@ -57,12 +65,29 @@ function ClearMiniHUD(){
     minHUD.textContent = "";
 }
 
-function updateHUD(number){
-    HUD.textContent += number;
+function updateHUD(content){
+    console.log("updateHUD " + first)
+    let hudContent = first.join("");
+    if(first.length > 11){
+        const number = first.slice(0,10);
+        hudContent = number.join("") + "e+" + first.length;
+
+        if(operatorSelect){
+            hudContent = hudContent + " " + operator;
+        }
+        console.log(hudContent);
+    }
+    HUD.textContent = hudContent;
 }
 
-function updateminiHUD(number){
-    minHUD.textContent = number;
+function updateminiHUD(value){
+    let miniContent = second.join("");
+    if(second.length > 11){
+        const number = second.slice(0,10);
+        miniContent = number.join("") + "e+" + second.length;
+        console.log(miniContent);
+    }
+    minHUD.textContent = miniContent;
 }
 
 function addDigit(digit = "", del = 1){
@@ -74,8 +99,16 @@ function addDigit(digit = "", del = 1){
         switchNow = false;
         switchValue();
     }
-    first.splice(first.length, del, digit);
-    updateHUD(digit);
+
+    let index = first.length;
+    
+    if(first.length > 10){
+        del = 1;
+        index = first.length - 1;
+        console.log("worked");
+    }
+    first.splice(index, del, digit);
+    updateHUD();
     console.log("First: " + first + " Second: " + second);
 }
 
@@ -89,11 +122,16 @@ function switchValue(){
 
 function updateOper(oper){
     console.log("First: " + first + " Second: " + second);
+
+    if(second.length > 0){
+        Operate();
+    }
+
     hudClear = true;
     operatorSelect = true;
     operator = oper;
     console.log(first);
-    HUD.textContent = first.join("") + " " + oper + " ";
+    updateHUD(operator);
     OpHUD.textContent = operator;
     switchNow = true;
 }
@@ -132,4 +170,4 @@ operators.forEach((oper) => {
 
 clear.addEventListener("click", ()=> ClearAll());
 
-equals.addEventListener("click", ()=> Operate(first,second,operator));
+equals.addEventListener("click", ()=> Operate());

@@ -73,7 +73,7 @@ operator -> equals
 
 equals -> digit
 - clear hud
-- store result in second (its going to obsolete anyway)
+- store result in first (its going to obsolete anyway)
 - result to null
 - update first
 - flag store
