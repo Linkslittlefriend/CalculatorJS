@@ -33,7 +33,7 @@ body {
 }
 
 #hud {
-    width: 6em;
+    width: 8em;
     min-height: 12vh;
     font-size: 6em;
 }
@@ -45,7 +45,7 @@ body {
 }
 
 #minihud {
-    width: 6em;
+    width: 8em;
     min-height: 6vh;
     font-size: 3em;
 }
@@ -60,7 +60,7 @@ body {
     display: flex;
     justify-content: center;
     flex-direction: row;
-    gap: 4em;
+    gap: 3em;
 }
 
 .oper {
@@ -88,5 +88,5 @@ button {
 }
 
 #operE, #clear {
-    min-width: 3.65em;
+    min-width: 3em;
 }

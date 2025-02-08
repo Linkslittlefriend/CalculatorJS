@@ -37,7 +37,7 @@ function Operate(){
         return;
     }
 
-    first = String(result).split("");
+    first = String(Math.round(result * 100) / 100).split("");
     updateHUD();
     OpHUD.textContent = "=";
 
@@ -50,6 +50,20 @@ function ClearAll(){
     ClearHUD();
     ClearOpHUD();
     ClearMiniHUD();
+    HUD.textContent = 0;
+    hudClear = true;
+}
+
+function eraseInput(){
+    if(operatorSelect){
+        operatorSelect = false;
+        switchNow = false;
+        updateHUD();
+        ClearOpHUD();
+    } else {
+        first.pop();
+        updateHUD();
+    }
 }
 
 function ClearHUD(){
@@ -70,7 +84,7 @@ function updateHUD(content){
     let hudContent = first.join("");
     if(first.length > 11){
         const number = first.slice(0,10);
-        hudContent = number.join("") + "e+" + first.length;
+        hudContent = number.join("") + "e+" + (first.length - 11);
 
         if(operatorSelect){
             hudContent = hudContent + " " + operator;
@@ -84,15 +98,16 @@ function updateminiHUD(value){
     let miniContent = second.join("");
     if(second.length > 11){
         const number = second.slice(0,10);
-        miniContent = number.join("") + "e+" + second.length;
+        miniContent = number.join("") + "e+" + (second.length - 11);
         console.log(miniContent);
     }
     minHUD.textContent = miniContent;
 }
 
-function addDigit(digit = "", del = 1){
+function addDigit(del = 1,counter = 0, digit = ""){
     if(hudClear){
         ClearHUD();
+        console.log("hud cleared");
     }
     if(switchNow){
         console.log("trigger");
@@ -107,7 +122,7 @@ function addDigit(digit = "", del = 1){
         index = first.length - 1;
         console.log("worked");
     }
-    first.splice(index, del, digit);
+    first.splice(index - counter, del, digit);
     updateHUD();
     console.log("First: " + first + " Second: " + second);
 }
@@ -154,6 +169,7 @@ let switchNow = false;
 const digits = document.querySelectorAll(".btns button");
 const operators = document.querySelectorAll(".normal button");
 const clear = document.querySelector("#clear");
+const backspace = document.querySelector("#backspace");
 const equals = document.querySelector('#operE');
 
 const HUD = document.querySelector("#hud");
@@ -161,7 +177,7 @@ const OpHUD = document.querySelector("#operhud");
 const minHUD = document.querySelector("#minihud");
 
 digits.forEach((digit) => {
-    digit.addEventListener("click", ()=>  addDigit(digit.value, 0));
+    digit.addEventListener("click", ()=>  addDigit(0, 0, digit.value));
 });
 
 operators.forEach((oper) => {
@@ -169,5 +185,7 @@ operators.forEach((oper) => {
 });
 
 clear.addEventListener("click", ()=> ClearAll());
+
+backspace.addEventListener("click", ()=> eraseInput());
 
 equals.addEventListener("click", ()=> Operate());
